@@ -56,7 +56,7 @@ const UsuarioForm: React.FC = () => {
     <form className="form-card" onSubmit={handleSubmit}>
       <h2 className="form-title">Cadastrar Usuário</h2>
 
-      <Input label="Nome de Usuário" name="username" value={form.username} onChange={handleChange} type="text" placeholder="paulo123" />
+      <Input label="Nome de Usuário" name="username" value={form.username} onChange={handleChange} type="text" placeholder="nome" />
       <Input label="Email" name="email" value={form.email} onChange={handleChange} type="email" placeholder="email@exemplo.com" />
       <Input label="Senha" name="password" value={form.password} onChange={handleChange} type="password" placeholder="********" />
       <Input label="CPF" name="cpf" value={form.cpf || ""} onChange={handleChange} type="text" placeholder="000.000.000-00" />

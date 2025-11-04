@@ -12,7 +12,8 @@ export interface Usuario {
 
 export const listarUsuarios = async (): Promise<Usuario[]> => {
   const { data } = await axiosInstance.get("/usuarios/");
-  return data;
+  console.log("Retorno da API de usuários:", data);
+  return data.results;
 };
 
 export const criarUsuario = async (usuario: Usuario): Promise<Usuario> => {

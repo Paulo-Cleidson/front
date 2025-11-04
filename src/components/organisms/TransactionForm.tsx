@@ -67,12 +67,15 @@ const TransactionForm: React.FC = () => {
           onChange={handleChange}
           className="form-select mb-3"
         >
-          <option value="">Selecione uma carteira</option>
-          {carteiras?.map((c: Carteira) => (
-            <option key={c.id} value={c.id}>
-              {c.nome} — Saldo: R$ {c.saldo_inicial}
-            </option>
-          ))}
+          {Array.isArray(carteiras) ? (
+            carteiras.map((c: Carteira) => (
+              <option key={c.id} value={c.id}>
+                {c.nome} — Saldo: R$ {c.saldo_inicial}
+              </option>
+            ))
+          ) : (
+            <option disabled>Nenhuma carteira encontrada</option>
+          )}
         </select>
       )}
 
