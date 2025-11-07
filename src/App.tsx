@@ -1,24 +1,51 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import UsuarioForm from "./components/organisms/UsuarioForm";
-import CarteiraForm from "./components/organisms/CarteiraForm";
-import TransactionForm from "./components/organisms/TransactionForm";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { isLoggedIn } from './api/token';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
 
-const queryClient = new QueryClient();
+const App: React.FC = () => {
+  // This will force re-render when localStorage changes
+  const [isAuthenticated, setIsAuthenticated] = React.useState(isLoggedIn());
 
-function App() {
+  // Listen for storage changes (like when login sets the token)
+  React.useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(isLoggedIn());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check authentication status periodically
+    const interval = setInterval(() => {
+      setIsAuthenticated(isLoggedIn());
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <h1>
-        FinPlan — Controle Financeiro
-      </h1>
-
-      <div className="form-container">
-        <UsuarioForm />
-        <CarteiraForm />
-        <TransactionForm />
-      </div>
-    </QueryClientProvider>
+    <Router>
+      <Routes>
+        <Route 
+          path="/login" 
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
+          } 
+        />
+        <Route 
+          path="/" 
+          element={
+            isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />
+          } 
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
