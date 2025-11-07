@@ -1,73 +1,134 @@
-# React + TypeScript + Vite
+# Sistema de Gerenciamento Financeiro Pessoal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um sistema web moderno para controle financeiro pessoal desenvolvido com **React + TypeScript + Vite**, permitindo o gerenciamento de carteiras e transações financeiras.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React 18 + TypeScript
+- **Build Tool:** Vite
+- **Roteamento:** React Router DOM
+- **Gerenciamento de Estado:** TanStack React Query
+- **HTTP Client:** Axios
+- **Autenticação:** Token-based (JWT)
+- **Backend:** Django REST Framework
+- **Estilização:** CSS personalizado + Tailwind CSS
 
-## React Compiler
+## 📦 Funcionalidades Principais
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🔐 Autenticação
+- Login seguro com token JWT
+- Persistência de sessão
+- Proteção de rotas privadas
 
-## Expanding the ESLint configuration
+### 💰 Gerenciamento Financeiro
+- **Carteiras:** Múltiplas carteiras por usuário
+- **Transações:** Registro de receitas (R) e despesas (D)
+- **Dashboard:** Resumo financeiro em tempo real
+- **Saldo:** Cálculo automático do saldo total
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 📊 Dashboard Interativo
+- Visualização do saldo total em tempo real
+- Resumo de receitas e despesas
+- Histórico de transações
+- Atualização automática após novas transações
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏗️ Estrutura do Projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/                 # Serviços de API
+│   ├── token.ts        # Autenticação
+│   ├── carteiras.ts    # Gerenciamento de carteiras
+│   ├── transacoes.ts   # Operações com transações
+│   └── resumo.ts       # Dados resumidos
+├── components/         # Componentes React
+│   ├── atoms/         # Componentes básicos (Input, Button)
+│   └── organisms/     # Componentes complexos (LoginForm, TransactionForm)
+├── pages/             # Páginas da aplicação
+│   ├── LoginPage.tsx  # Página de login
+│   └── HomePage.tsx   # Dashboard principal
+└── App.tsx           # Configuração de rotas
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔌 APIs Integradas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Backend Django
+- `POST /api/token/` - Autenticação
+- `GET /api/v1/carteiras/` - Listar carteiras
+- `GET /api/v1/transacoes/somar-transacoes/` - Resumo financeiro
+- `POST /api/v1/transacoes/` - Criar transação
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend Services
+- `login()` - Autenticação de usuário
+- `listarCarteiras()` - Buscar carteiras do usuário
+- `obterResumoTransacoes()` - Obter resumo financeiro
+- `criarTransacao()` - Registrar nova transação
+
+## 🎯 Características Técnicas
+
+### Estado e Gerenciamento de Dados
+- **Estado Local:** `useState` para estado de componentes
+- **Estado do Servidor:** `useMutation` e `useQuery` do TanStack Query
+- **Persistência:** `localStorage` para token de autenticação
+- **Navegação:** `useNavigate` do React Router
+
+### Segurança
+- Token JWT armazenado seguromente
+- Interceptores Axios para autenticação automática
+- Rotas protegidas baseadas no estado de autenticação
+
+### Performance
+- Carregamento assíncrono de dados
+- Atualizações em tempo real
+- Cache inteligente com React Query
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+- Node.js 16+
+- Backend Django configurado
+
+### Instalação e Desenvolvimento
+```bash
+# Instalar dependências
+npm install
+
+# Executar em modo desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
 ```
+
+## 🔧 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+VITE_API_BASE_URL=http://localhost:8080/api
+VITE_API_VERSION=/v1
+```
+
+## 📱 Interface do Usuário
+
+### Design System
+- **Cores:** Azul empresarial (#02013b), Verde sucesso (#0fa00a)
+- **Layout:** Gradiente azul-verde com cards brancos
+- **Tipografia:** Inter font family
+- **Responsividade:** Design mobile-first
+
+### Componentes Principais
+- **Header:** Navegação + saldo do usuário
+- **Cards:** Containers para formulários e dados
+- **Forms:** Inputs estilizados com validação
+- **Buttons:** Ações primárias e secundárias
+
+## 🔄 Fluxo da Aplicação
+
+1. **Login** → Autenticação com token JWT
+2. **Dashboard** → Carrega carteiras e resumo
+3. **Navegação** → Header com saldo e logout
+4. **Transações** → Formulário para novas entradas
+5. **Atualização** → Dados atualizados automaticamente
+
+Este projeto oferece uma base sólida para um sistema financeiro pessoal completo, com arquitetura escalável e experiência de usuário moderna.

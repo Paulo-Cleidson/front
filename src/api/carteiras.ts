@@ -7,15 +7,6 @@ export interface Carteira {
 }
 
 export const listarCarteiras = async (): Promise<Carteira[]> => {
-  const { data } = await axiosInstance.get("/carteiras/");
-  return data;
-};
-
-export const criarCarteira = async (carteira: {
-  usuario: number;
-  nome: string;
-  saldo_inicial: number;
-}) => {
-  const { data } = await axiosInstance.post("/carteiras/", carteira);
-  return data;
+  const { data } = await axiosInstance.get(import.meta.env.VITE_API_VERSION + "/carteiras/");
+  return data.results || data; // Handle both cases
 };

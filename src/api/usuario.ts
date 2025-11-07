@@ -10,13 +10,22 @@ export interface Usuario {
   meta_financeira?: number;
 }
 
+export interface CriarUsuarioData {
+  username: string;
+  password: string;
+  email?: string;
+}
+
 export const listarUsuarios = async (): Promise<Usuario[]> => {
-  const { data } = await axiosInstance.get("/usuarios/");
+  const { data } = await axiosInstance.get("v1/usuarios/");
   console.log("Retorno da API de usuários:", data);
   return data.results;
 };
 
-export const criarUsuario = async (usuario: Usuario): Promise<Usuario> => {
-  const { data } = await axiosInstance.post("/usuarios/", usuario);
+export const criarUsuario = async (usuario: CriarUsuarioData): Promise<Usuario> => {
+  const { data } = await axiosInstance.post(
+    `${import.meta.env.VITE_API_VERSION}/usuarios/`,
+    usuario
+  );
   return data;
 };
